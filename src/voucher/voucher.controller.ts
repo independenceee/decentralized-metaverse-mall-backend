@@ -1,41 +1,41 @@
-import {
-    Controller,
-    Delete,
-    Get,
-    HttpCode,
-    HttpStatus,
-    Param,
-    Patch,
-    Post,
-} from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Res } from "@nestjs/common";
 import { VoucherService } from "./voucher.service";
-import { GetAccount } from "src/account/decorator";
 import { Voucher } from "./interfaces";
+import { CreateVoucherDto } from "./dto";
+import { UpdateVoucherDto } from "./dto/update-voucher.dto";
+import { Response } from "express";
 
 @Controller("voucher")
 export class VoucherController {
     constructor(private voucherService: VoucherService) {}
 
     @Get()
-    getAllVouchers(): Promise<Voucher[]> {
-        return this.voucherService.getAllVouchers();
-    }
-
-    @Get(":id")
-    getVoucherById(
-        @GetAccount("id") accountId: string,
-        @Param("id") voucherId: string,
-    ) {
-        return this.voucherService.getVoucherById(accountId, voucherId);
+    getAllVouchers(
+        @Query("status") status: string,
+        @Query("page") page: number = 1,
+        @Query("pageSize") pageSize: number = 12,
+    ): Promise<{ totalPage: number; vouchers: Array<Voucher> }> {
+        return this.voucherService.getAllVouchers({ status: status, page: page, pageSize: pageSize });
     }
 
     @Post()
-    createVoucher() {}
+    createVoucher(@Body() dto: CreateVoucherDto[], @Res() response: Response) {
+        return this.voucherService.createVoucher({ dto: dto, response: response });
+    }
+
+    @Get(":id")
+    getVoucherById(@Param("id") id: string) {
+        return this.voucherService.getVoucherById({ voucherId: id });
+    }
 
     @Patch(":id")
-    updateVoucherById() {}
+    updateVoucherById(@Param("id") id: string, @Body() dto: UpdateVoucherDto, @Res() response: Response) {
+        return this.voucherService.updateVoucher({ voucherId: id, dto: dto, response: response });
+    }
 
     @HttpCode(HttpStatus.NO_CONTENT)
     @Delete(":id")
-    deleteVoucherById() {}
+    deleteVoucherById(@Param("id") id: string, @Res() response: Response) {
+        return this.voucherService.deleteVoucher({ response: response, voucherId: id });
+    }
 }

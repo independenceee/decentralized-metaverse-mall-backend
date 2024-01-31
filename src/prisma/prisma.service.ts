@@ -8,10 +8,10 @@ export class PrismaService extends PrismaClient {
         super({ datasources: { db: { url: config.get("DATABASE_URL") } } });
     }
 
-    cleanDatabases() {
-        return this.$transaction([
-            this.account.deleteMany(),
-            this.voucher.deleteMany(),
-        ]);
-    }
+    // cleanDatabases() {
+    //     return this.$transaction([
+    //         this.account.deleteMany(),
+    //         this.voucher.deleteMany(),
+    //     ]);
+    // }
 }

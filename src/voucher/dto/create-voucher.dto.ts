@@ -1,15 +1,12 @@
-import { IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { StatusVoucher } from "@prisma/client";
 
-export class EditBookmarkDto {
+export class CreateVoucherDto {
     @IsString()
-    @IsOptional()
-    title?: string;
-
-    @IsString()
-    @IsOptional()
-    description?: string;
+    @IsNotEmpty()
+    code: string;
 
     @IsString()
-    @IsOptional()
-    link?: string;
+    @IsNotEmpty()
+    status?: StatusVoucher;
 }
