@@ -5,9 +5,8 @@ import { EmurgoService } from "./emurgo.service";
 export class EmurgoController {
     constructor(private emurgoService: EmurgoService) {}
 
-
     @Get()
-    getStateKey(@Query("address") address: string)  {
+    getStateKey(@Query("address") address: string) {
         return this.emurgoService.generateStakeKeyFromAddress(address);
     }
 }

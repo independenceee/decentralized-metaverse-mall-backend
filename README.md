@@ -1,9 +1,8 @@
 End-User:
 
 -   Check thấy ví mới hoặc chưa stake vào VILAI pool --> soạn giao dịch để stake vào VILAI POOL
--   Check xem ủy thác vào VILAI được 4 epoch chưa? đủ => phát voucher (lựa chọn một voucher chưa dùng, đường link mua hàng=> thông báo cho người dùng, mark luôn voucher đã được gán cho ví nào)
-    Thiếu => Thông báo đợi
--   Trang webs, tokenomic, đội nhóm, roadmap
+-   Check xem ủy thác vào VILAI được 4 epoch chưa? đủ => phát voucher (lựa chọn một voucher chưa dùng, đường link mua hàng=> thông báo cho người dùng, mark luôn voucher đã được gán cho ví nào) => OK
+    Thiếu => Thông báo đợi => OK
 
 Admin:
 
