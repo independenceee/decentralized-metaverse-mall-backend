@@ -8,13 +8,13 @@ datasource db {
 }
 
 model Account {
-  id            String   @id @default(uuid())
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  walletAddress String    @db.Text @unique
-  stakeKey      String?  @db.Text
-  email         String?  @db.Text
-  userName      String?  @db.Text
+  id             String           @id @default(uuid())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  walletAddress  String           @unique @db.Text
+  stakeKey       String?          @db.Text
+  email          String?          @db.Text
+  userName       String?          @db.Text
   accountVoucher AccountVoucher[]
 }
 
@@ -23,19 +23,19 @@ model Voucher {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  code   String         @db.Text @unique()
-
-  status StatusVoucher? @default(USED)
+  code           String           @unique() @db.Text
+  link           String           @db.Text
+  status         StatusVoucher?   @default(USED)
   accountVoucher AccountVoucher[]
 }
 
 model AccountVoucher {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  accountId String @db.Text
-  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  voucherId String @db.Text
-  voucher Voucher @relation(fields: [voucherId], references: [id], onDelete: Cascade)
+  accountId String   @db.Text
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  voucherId String   @db.Text
+  voucher   Voucher  @relation(fields: [voucherId], references: [id], onDelete: Cascade)
 
   @@id([accountId, voucherId])
 }

@@ -6,7 +6,7 @@ export class EmurgoController {
     constructor(private emurgoService: EmurgoService) {}
 
     @Get()
-    getStateKey(@Query("address") address: string) {
-        return this.emurgoService.generateStakeKeyFromAddress(address);
+    getStateKey(@Query("wallet_address") walletAddress: string) {
+        return this.emurgoService.generateStakeKeyFromAddress({ walletAddress: walletAddress });
     }
 }

@@ -16,8 +16,6 @@ export class KoiosService extends Axios {
         });
 
         return response.data;
-
-        
     }
 
     async accountInfomation({ stakeAddress }: { stakeAddress: string }) {

@@ -1,16 +1,7 @@
-import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    HttpCode,
-    HttpStatus,
-    Param,
-    Patch,
-    Post,
-} from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Res } from "@nestjs/common";
 import { AccountService } from "./account.service";
 import { CreateAccountDto } from "./dto";
+import { Response } from "express";
 
 @Controller("account")
 export class AccountController {
@@ -18,8 +9,8 @@ export class AccountController {
 
     @HttpCode(HttpStatus.OK)
     @Post()
-    createAccount(@Body() dto: CreateAccountDto) {
-        return this.accountService.createAccount(dto);
+    createAccount(@Body() dto: CreateAccountDto, @Res() response: Response) {
+        return this.accountService.createAccount({ dto: dto, response: response });
     }
 
     @HttpCode(HttpStatus.OK)
@@ -35,10 +26,10 @@ export class AccountController {
     }
 
     @HttpCode(HttpStatus.OK)
-    @Patch()
+    @Patch(":id")
     updateAccountById() {}
 
     @HttpCode(HttpStatus.OK)
-    @Delete()
+    @Delete(":id")
     deleteAccountById() {}
 }
