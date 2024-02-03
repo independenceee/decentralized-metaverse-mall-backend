@@ -9,4 +9,8 @@ export class CreateVoucherDto {
     @IsString()
     @IsNotEmpty()
     status?: StatusVoucher;
+
+    @IsString()
+    @IsNotEmpty()
+    link: StatusVoucher;
 }

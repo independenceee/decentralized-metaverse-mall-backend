@@ -33,9 +33,7 @@ export class VoucherService {
                     mesage: "Voucher has been require (status, code)",
                 });
             }
-
             await this.prisma.voucher.createMany({ data: dto });
-
             return response.status(HttpStatus.OK).json({
                 message: "Create voucher successfully",
             });
@@ -82,5 +80,37 @@ export class VoucherService {
         } catch (error) {
             response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error });
         }
+    }
+
+    async getVoucherWalletAddress({ walletAddress }: { walletAddress: string }) {
+        const account = await this.prisma.account.findFirst({
+            where: {
+                walletAddress: walletAddress,
+            },
+        });
+        const existVouchers = await this.prisma.accountVoucher.findMany({
+            where: {
+                accountId: account.id,
+            },
+            include: {
+                voucher: true,
+            },
+        });
+
+        if (existVouchers.length > 0) {
+            return existVouchers;
+        }
+        const freeVoucher = await this.prisma.voucher.findFirst({
+            where: {
+                status: "FREE",
+            },
+        });
+        await this.prisma.accountVoucher.create({
+            data: {
+                accountId: account.id,
+                voucherId: freeVoucher.id,
+            },
+        });
+        return [freeVoucher];
     }
 }

@@ -9,4 +9,8 @@ export class UpdateVoucherDto {
     @IsString()
     @IsOptional()
     status?: StatusVoucher;
+
+    @IsString()
+    @IsOptional()
+    link?: string;
 }

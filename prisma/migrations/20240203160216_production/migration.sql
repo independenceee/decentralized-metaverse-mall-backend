@@ -20,10 +20,30 @@ CREATE TABLE "Voucher" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "code" TEXT NOT NULL,
+    "link" TEXT NOT NULL,
     "status" "StatusVoucher" DEFAULT 'USED',
 
     CONSTRAINT "Voucher_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "AccountVoucher" (
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "accountId" TEXT NOT NULL,
+    "voucherId" TEXT NOT NULL,
+
+    CONSTRAINT "AccountVoucher_pkey" PRIMARY KEY ("accountId","voucherId")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Account_walletAddress_key" ON "Account"("walletAddress");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Voucher_code_key" ON "Voucher"("code");
+
+-- AddForeignKey
+ALTER TABLE "AccountVoucher" ADD CONSTRAINT "AccountVoucher_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "Account"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "AccountVoucher" ADD CONSTRAINT "AccountVoucher_voucherId_fkey" FOREIGN KEY ("voucherId") REFERENCES "Voucher"("id") ON DELETE CASCADE ON UPDATE CASCADE;

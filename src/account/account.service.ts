@@ -1,7 +1,8 @@
-import { Injectable } from "@nestjs/common";
+import { HttpCode, HttpStatus, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { AccountDto } from "./dto";
 import { EmurgoService } from "src/emurgo/emurgo.service";
+import { Response } from "express";
 
 @Injectable({})
 export class AccountService {
@@ -10,22 +11,31 @@ export class AccountService {
         private emurgo: EmurgoService,
     ) {}
 
-    async createAccount(dto: AccountDto) {
+    async createAccount({ dto }: { dto: AccountDto }) {
         const existAccount = await this.prisma.account.findUnique({
             where: { walletAddress: dto.walletAddress },
         });
-        if (existAccount) return existAccount;
-        const stakeKey = this.emurgo.generateStakeKeyFromAddress(
-            dto.walletAddress,
-        );
+
+        if (existAccount) {
+            return existAccount;
+        }
+
+        const stakeKey = this.emurgo.generateStakeKeyFromAddress({ walletAddress: dto.walletAddress });
         const account = await this.prisma.account.create({
             data: { ...dto, stakeKey: stakeKey },
         });
         return account;
     }
 
-    async getAllAccounts() {
-        return await this.prisma.account.findMany();
+    async getAllAccounts({ page, pageSize }: { page: number; pageSize: number }) {
+        const totalAccount = await this.prisma.account.count();
+        const totalPage = Math.ceil(totalAccount / pageSize);
+        const accounts = await this.prisma.account.findMany({
+            skip: (page - 1) * pageSize,
+            take: pageSize,
+        });
+
+        return { accounts, totalPage };
     }
 
     async getAccountById(accountId: string) {

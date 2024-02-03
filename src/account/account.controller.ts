@@ -1,14 +1,4 @@
-import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    HttpCode,
-    HttpStatus,
-    Param,
-    Patch,
-    Post,
-} from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query } from "@nestjs/common";
 import { AccountService } from "./account.service";
 import { CreateAccountDto } from "./dto";
 
@@ -19,13 +9,13 @@ export class AccountController {
     @HttpCode(HttpStatus.OK)
     @Post()
     createAccount(@Body() dto: CreateAccountDto) {
-        return this.accountService.createAccount(dto);
+        return this.accountService.createAccount({ dto: dto });
     }
 
     @HttpCode(HttpStatus.OK)
     @Get()
-    getAllAccounts() {
-        return this.accountService.getAllAccounts();
+    getAllAccounts(@Query("page") page: number = 1, @Query("pageSize") pageSize: number = 12) {
+        return this.accountService.getAllAccounts({ page: page, pageSize: pageSize });
     }
 
     @HttpCode(HttpStatus.OK)
@@ -35,10 +25,10 @@ export class AccountController {
     }
 
     @HttpCode(HttpStatus.OK)
-    @Patch()
+    @Patch(":id")
     updateAccountById() {}
 
     @HttpCode(HttpStatus.OK)
-    @Delete()
+    @Delete(":id")
     deleteAccountById() {}
 }
