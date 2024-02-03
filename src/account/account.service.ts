@@ -11,13 +11,7 @@ export class AccountService {
         private emurgo: EmurgoService,
     ) {}
 
-    async createAccount({ dto, response }: { dto: AccountDto; response: Response }) {
-        if (!dto) {
-            return response.status(HttpStatus.BAD_REQUEST).json({
-                message: "Wallet address has been required !",
-            });
-        }
-
+    async createAccount({ dto }: { dto: AccountDto }) {
         const existAccount = await this.prisma.account.findUnique({
             where: { walletAddress: dto.walletAddress },
         });
@@ -33,8 +27,15 @@ export class AccountService {
         return account;
     }
 
-    async getAllAccounts() {
-        return await this.prisma.account.findMany();
+    async getAllAccounts({ page, pageSize }: { page: number; pageSize: number }) {
+        const totalAccount = await this.prisma.account.count();
+        const totalPage = Math.ceil(totalAccount / pageSize);
+        const accounts = await this.prisma.account.findMany({
+            skip: (page - 1) * pageSize,
+            take: pageSize,
+        });
+
+        return { accounts, totalPage };
     }
 
     async getAccountById(accountId: string) {

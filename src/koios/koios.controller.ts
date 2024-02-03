@@ -8,14 +8,4 @@ export class KoiosController {
         private koiosService: KoiosService,
         private config: ConfigService,
     ) {}
-
-    @Get("/pool/pool_delegators")
-    poolDelegatorsList(@Query("pool_bech32") poolBech32: string) {
-        return this.koiosService.poolDelegatorsList({ poolBech32: poolBech32 });
-    }
-
-    @Get("/account/account_infomation")
-    accountInfomation(@Query("stake_address") stakeAddress: string) {
-        return this.koiosService.accountInfomation({ stakeAddress: stakeAddress });
-    }
 }

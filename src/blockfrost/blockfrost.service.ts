@@ -11,41 +11,17 @@ export class BlockfrostService extends BlockFrostAPI {
         });
     }
 
-    /**
-     * @member ACCOUNT
-     */
-    async accountDelegationHistory({ stakeAddress }: { stakeAddress: string }) {
-        return await this.accountsDelegations(stakeAddress);
-    }
-
-    async accountSpecificAccount({ stakeAddress }: { stakeAddress: string }) {
-        return this.accounts(stakeAddress);
-    }
-
-    async accountRewardHistory({ stakeAddress }: { stakeAddress }) {
-        return this.accountsRewards(stakeAddress);
-    }
-
-    /**
-     * @member TRANSACTION
-     */
-    async specificTransaction({ transactionHash }: { transactionHash: string }) {
-        return await this.txs(transactionHash);
-    }
-
-    /* GET TEST ACCOUNT */
-
     async account({ stakeAddress }: { stakeAddress: string }) {
         const accountsDelegation = await this.accountsDelegations(stakeAddress);
         const specificTransaction = await this.txs(accountsDelegation[0].tx_hash);
-        console.log(specificTransaction);
-        return;
-    }
+        const accountRewardHistory = await this.accountsRewards(stakeAddress);
 
-    /**
-     * block_time
-     * tx_hash
-     * pool_id
-     * stake_address
-     */
+        return {
+            tx_hash: accountsDelegation[0].tx_hash,
+            pool_id: accountsDelegation[0].pool_id,
+            block_time: specificTransaction.block_time,
+            stake_address: stakeAddress,
+            epochs: accountRewardHistory,
+        };
+    }
 }
