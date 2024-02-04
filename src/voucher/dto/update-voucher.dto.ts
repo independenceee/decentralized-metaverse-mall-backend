@@ -1,4 +1,4 @@
-import { StatusVoucher } from "@prisma/client";
+type StatusVoucher = "USED" | "FREE";
 import { IsOptional, IsString } from "class-validator";
 
 export class UpdateVoucherDto {

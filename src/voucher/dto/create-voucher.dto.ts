@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsOptional, IsString } from "class-validator";
-import { StatusVoucher } from "@prisma/client";
+type StatusVoucher = "USED" | "FREE";
 
 export class CreateVoucherDto {
     @IsString()
