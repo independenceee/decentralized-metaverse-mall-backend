@@ -1,8 +1,8 @@
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateVoucherDto, UpdateVoucherDto } from "./dto";
-import { StatusVoucher } from "@prisma/client";
 import { Response } from "express";
+type StatusVoucher = "USED" | "FREE";
 
 @Injectable()
 export class VoucherService {
@@ -26,45 +26,15 @@ export class VoucherService {
         });
     }
 
-    async createVoucher({ dto, response }: { dto: CreateVoucherDto[]; response: Response }) {
-        try {
-            if (dto.length === 0) {
-                return response.status(HttpStatus.BAD_REQUEST).json({
-                    mesage: "Voucher has been require (status, code)",
-                });
-            }
-            await this.prisma.voucher.createMany({ data: dto });
-            return response.status(HttpStatus.OK).json({
-                message: "Create voucher successfully",
-            });
-        } catch (error) {
-            response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error });
-        }
+    async createVoucher({ dto }: { dto: CreateVoucherDto[] }) {
+        await this.prisma.voucher.createMany({ data: dto });
     }
 
-    async updateVoucher({
-        voucherId,
-        dto,
-        response,
-    }: {
-        voucherId: string;
-        dto: UpdateVoucherDto;
-        response: Response;
-    }) {
-        try {
-            const existVoucher = await this.prisma.voucher.findUnique({ where: { id: voucherId } });
-            if (!existVoucher) {
-                return response.status(HttpStatus.NOT_FOUND).json({
-                    message: "Voucher not found",
-                });
-            }
-            return await this.prisma.voucher.update({
-                where: { id: voucherId },
-                data: dto,
-            });
-        } catch (error) {
-            response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error });
-        }
+    async updateVoucher({ voucherId, dto }: { voucherId: string; dto: UpdateVoucherDto }) {
+        return await this.prisma.voucher.update({
+            where: { id: voucherId },
+            data: dto,
+        });
     }
 
     async deleteVoucher({ response, voucherId }: { response: Response; voucherId: string }) {
@@ -113,4 +83,6 @@ export class VoucherService {
         });
         return [freeVoucher];
     }
+
+  
 }
