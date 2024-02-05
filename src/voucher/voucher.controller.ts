@@ -20,7 +20,7 @@ export class VoucherController {
 
     @Post()
     createVoucher(@Body() dto: CreateVoucherDto[], @Res() response: Response) {
-        return this.voucherService.createVoucher({ dto: dto, response: response });
+        return this.voucherService.createVoucher({ dto: dto });
     }
 
     @Get(":id")
@@ -29,13 +29,18 @@ export class VoucherController {
     }
 
     @Patch(":id")
-    updateVoucherById(@Param("id") id: string, @Body() dto: UpdateVoucherDto, @Res() response: Response) {
-        return this.voucherService.updateVoucher({ voucherId: id, dto: dto, response: response });
+    updateVoucherById(@Param("id") id: string, @Body() dto: UpdateVoucherDto) {
+        return this.voucherService.updateVoucher({ voucherId: id, dto: dto });
     }
 
     @HttpCode(HttpStatus.NO_CONTENT)
     @Delete(":id")
     deleteVoucherById(@Param("id") id: string, @Res() response: Response) {
         return this.voucherService.deleteVoucher({ response: response, voucherId: id });
+    }
+
+    @Get("address")
+    getVoucherWalletAddress(@Query("wallet_address") walletAddress: string) {
+        return this.voucherService.getVoucherWalletAddress({ walletAddress: walletAddress });
     }
 }
