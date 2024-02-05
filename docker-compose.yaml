@@ -9,6 +9,7 @@ services:
             - "5000:5000"
         depends_on:
             - postgres
+
         environment:
             DATABASE_URL: postgresql://postgres:postgres@postgres:5432/decentralized-metaverse-mall?schema=public
             KOIOS_RPC_URL_PREPROD: https://preprod.koios.rest/api/v1
