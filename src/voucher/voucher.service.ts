@@ -14,7 +14,7 @@ export class VoucherService {
         const vouchers = await this.prisma.voucher.findMany({
             where: { status: status as StatusVoucher },
             skip: (page - 1) * pageSize,
-            take: pageSize,
+            take: Number(pageSize),
         });
 
         return { vouchers, totalPage };
@@ -83,6 +83,4 @@ export class VoucherService {
         });
         return [freeVoucher];
     }
-
-  
 }
