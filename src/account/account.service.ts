@@ -1,8 +1,7 @@
-import { HttpCode, HttpStatus, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { AccountDto } from "./dto";
 import { EmurgoService } from "src/emurgo/emurgo.service";
-import { Response } from "express";
 
 @Injectable({})
 export class AccountService {
@@ -32,7 +31,7 @@ export class AccountService {
         const totalPage = Math.ceil(totalAccount / pageSize);
         const accounts = await this.prisma.account.findMany({
             skip: (page - 1) * pageSize,
-            take: pageSize,
+            take: Number(pageSize),
         });
 
         return { accounts, totalPage };
