@@ -7,8 +7,6 @@ services:
             dockerfile: Dockerfile
         ports:
             - "5000:5000"
-        depends_on:
-            - postgres
 
         environment:
             DATABASE_URL: postgresql://postgres:postgres@postgres:5432/decentralized-metaverse-mall?schema=public
@@ -24,7 +22,6 @@ services:
             VILAI_POOL_ID_BECH_32: pool1u7zrgexnxsysctnnwljjjymr70he829fr5n3vefnv80guxr42dv
             POLICYID_C2E_TOKEN: c88c4d8b1e448d579f58992debe9f905b47607ea878f3c2480248834
             ASSETNAME_C2E_TOKEN: C2E
-
     postgres:
         image: postgres:12
         environment:
@@ -35,6 +32,5 @@ services:
             - 5432:5432
         volumes:
             - pgdata:/var/lib/postgresql/data
-
 volumes:
     pgdata: {}
