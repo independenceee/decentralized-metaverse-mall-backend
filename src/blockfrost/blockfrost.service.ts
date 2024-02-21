@@ -13,12 +13,12 @@ export class BlockfrostService extends BlockFrostAPI {
 
     async account({ stakeAddress }: { stakeAddress: string }) {
         const accountsDelegation = await this.accountsDelegations(stakeAddress);
-        const specificTransaction = await this.txs(accountsDelegation[0].tx_hash);
+        const specificTransaction = await this.txs(accountsDelegation[accountsDelegation.length - 1].tx_hash);
         const accountRewardHistory = await this.accountsRewards(stakeAddress);
 
         return {
-            tx_hash: accountsDelegation[0].tx_hash,
-            pool_id: accountsDelegation[0].pool_id,
+            tx_hash: accountsDelegation[accountsDelegation.length - 1].tx_hash,
+            pool_id: accountsDelegation[accountsDelegation.length - 1].pool_id,
             block_time: specificTransaction.block_time,
             stake_address: stakeAddress,
             epochs: accountRewardHistory,
