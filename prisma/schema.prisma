@@ -18,11 +18,18 @@ model Account {
   accountVoucher AccountVoucher[]
 }
 
-model Voucher {
+model Category {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  name      String   @db.Text
+}
 
+model Voucher {
+  id             String           @id @default(uuid())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  price          String?          @db.Text
   code           String           @unique() @db.Text
   link           String           @db.Text
   status         StatusVoucher?   @default(USED)
