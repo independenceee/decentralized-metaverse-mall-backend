@@ -6,6 +6,7 @@ import { VoucherModule } from "./voucher/voucher.module";
 import { EmurgoModule } from "./emurgo/emurgo.module";
 import { BlockfrostModule } from "./blockfrost/blockfrost.module";
 import { KoiosModule } from "./koios/koios.module";
+import { CategoryModule } from "./category/category.module";
 
 @Module({
     imports: [
@@ -18,6 +19,7 @@ import { KoiosModule } from "./koios/koios.module";
         EmurgoModule,
         BlockfrostModule,
         KoiosModule,
+        CategoryModule,
     ],
 })
 export class AppModule {}

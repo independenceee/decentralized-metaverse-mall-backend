@@ -18,13 +18,6 @@ model Account {
   accountVoucher AccountVoucher[]
 }
 
-model Category {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String   @db.Text
-}
-
 model Voucher {
   id             String           @id @default(uuid())
   createdAt      DateTime         @default(now())
@@ -33,8 +26,19 @@ model Voucher {
   code           String           @unique() @db.Text
   link           String           @db.Text
   status         StatusVoucher?   @default(USED)
+  categoryId     String           @db.Text
+  category       Category         @relation(fields: [categoryId], references: [id])
   accountVoucher AccountVoucher[]
 }
+
+model Category {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   @db.Text
+  vouchers  Voucher[]
+}
+
 
 model AccountVoucher {
   createdAt DateTime @default(now())
