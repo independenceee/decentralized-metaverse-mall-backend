@@ -13,8 +13,6 @@ model Account {
   updatedAt      DateTime         @updatedAt
   walletAddress  String           @unique @db.Text
   stakeKey       String?          @db.Text
-  email          String?          @db.Text
-  userName       String?          @db.Text
   accountVoucher AccountVoucher[]
 }
 
@@ -36,6 +34,7 @@ model Category {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name      String   @db.Text
+  slug      String   @db.Text
   vouchers  Voucher[]
 }
 

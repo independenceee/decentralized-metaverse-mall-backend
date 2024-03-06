@@ -7,6 +7,7 @@ import { EmurgoModule } from "./emurgo/emurgo.module";
 import { BlockfrostModule } from "./blockfrost/blockfrost.module";
 import { KoiosModule } from "./koios/koios.module";
 import { CategoryModule } from "./category/category.module";
+import { MailModule } from "./mail/mail.module";
 
 @Module({
     imports: [
@@ -15,11 +16,12 @@ import { CategoryModule } from "./category/category.module";
         }),
         PrismaModule,
         AccountModule,
-        VoucherModule,
+        // VoucherModule,
         EmurgoModule,
         BlockfrostModule,
         KoiosModule,
         CategoryModule,
+        MailModule,
     ],
 })
 export class AppModule {}
