@@ -26,9 +26,9 @@ export class VoucherService {
         });
     }
 
-    async createVoucher({ dto }: { dto: CreateVoucherDto[] }) {
-        await this.prisma.voucher.createMany({ data: dto });
-    }
+    // async createVoucher({ dto }: { dto: CreateVoucherDto[] }) {
+    //     await this.prisma.voucher.createMany({ data: dto });
+    // }
 
     async updateVoucher({ voucherId, dto }: { voucherId: string; dto: UpdateVoucherDto }) {
         return await this.prisma.voucher.update({

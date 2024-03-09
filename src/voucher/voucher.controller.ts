@@ -18,10 +18,10 @@ export class VoucherController {
         return this.voucherService.getAllVouchers({ status: status, page: page, pageSize: pageSize });
     }
 
-    @Post()
-    createVoucher(@Body() dto: CreateVoucherDto[], @Res() response: Response) {
-        return this.voucherService.createVoucher({ dto: dto });
-    }
+    // @Post()
+    // createVoucher(@Body() dto: CreateVoucherDto[], @Res() response: Response) {
+    //     return this.voucherService.createVoucher({ dto: dto });
+    // }
 
     @Get(":id")
     getVoucherById(@Param("id") id: string) {
