@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { MulterModule } from "@nestjs/platform-express";
 import { PrismaModule } from "./prisma/prisma.module";
 import { AccountModule } from "./account/account.module";
 import { VoucherModule } from "./voucher/voucher.module";
@@ -8,6 +9,11 @@ import { BlockfrostModule } from "./blockfrost/blockfrost.module";
 import { KoiosModule } from "./koios/koios.module";
 import { CategoryModule } from "./category/category.module";
 import { MailModule } from "./mail/mail.module";
+import { RoadmapModule } from "./roadmap/roadmap.module";
+import { FounderModule } from "./founder/founder.module";
+import { AuthModule } from "./auth/auth.module";
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { join } from "path";
 
 @Module({
     imports: [
@@ -22,6 +28,9 @@ import { MailModule } from "./mail/mail.module";
         KoiosModule,
         CategoryModule,
         MailModule,
+        RoadmapModule,
+        FounderModule,
+        AuthModule,
     ],
 })
 export class AppModule {}
