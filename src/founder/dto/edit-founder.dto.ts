@@ -1,9 +1,31 @@
+import { IsEmpty, IsNotEmpty, IsString } from "class-validator";
+
 export class EditFounderDto {
-    username: string;
-    description: string;
-    image: string;
-    facebookLink: string;
-    twitterLink: string;
-    linkedinLink: string;
-    rrsLink: string;
+    @IsEmpty()
+    @IsString()
+    username?: string;
+
+    @IsEmpty()
+    @IsString()
+    description?: string;
+
+    @IsEmpty()
+    @IsString()
+    image?: string;
+
+    @IsEmpty()
+    @IsString()
+    facebookLink?: string;
+
+    @IsEmpty()
+    @IsString()
+    twitterLink?: string;
+
+    @IsEmpty()
+    @IsString()
+    linkedinLink?: string;
+
+    @IsEmpty()
+    @IsString()
+    rrsLink?: string;
 }
