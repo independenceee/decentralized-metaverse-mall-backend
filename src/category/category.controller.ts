@@ -1,31 +1,51 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    HttpCode,
+    HttpStatus,
+    Param,
+    Patch,
+    Post,
+    UseInterceptors,
+} from "@nestjs/common";
 import { CategoryService } from "./category.service";
 import { CreateCategoryDto, UpdateCategoryDto } from "./dto";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { storageConfig } from "src/helpers/config";
 
 @Controller("category")
 export class CategoryController {
     constructor(private categoryService: CategoryService) {}
 
+    @HttpCode(HttpStatus.OK)
     @Get()
     getCategories() {
         return this.categoryService.getCategories();
     }
 
+    @HttpCode(HttpStatus.OK)
     @Get(":id")
     getCategory(@Param("id") id: string) {
         return this.categoryService.getCategory({ id: id });
     }
 
+    @HttpCode(HttpStatus.OK)
     @Post()
+    @UseInterceptors(FileInterceptor("image", { storage: storageConfig("category") }))
     createCategory(@Body() dto: CreateCategoryDto) {
         return this.categoryService.createCategory({ dto: dto });
     }
 
+    @HttpCode(HttpStatus.OK)
     @Patch(":id")
-    updateCategory(@Param("id") id: string, @Body() dto: UpdateCategoryDto) {
+    @UseInterceptors(FileInterceptor("image", { storage: storageConfig("category") }))
+    editCategory(@Param("id") id: string, @Body() dto: UpdateCategoryDto) {
         this.categoryService.updateCategory({ id: id, dto: dto });
     }
 
+    @HttpCode(HttpStatus.OK)
     @Delete(":id")
     deleteCategory(@Param("id") id: string) {
         this.categoryService.deleteCategory({ id: id });
