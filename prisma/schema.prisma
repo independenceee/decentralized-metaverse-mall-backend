@@ -30,14 +30,15 @@ model Voucher {
 }
 
 model Category {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String   @db.Text
-  slug      String   @db.Text
-  vouchers  Voucher[]
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  name        String    @db.Text
+  image       String?    @db.Text
+  description String?    @db.Text
+  slug        String?    @db.Text
+  vouchers    Voucher[]
 }
-
 
 model AccountVoucher {
   createdAt DateTime @default(now())
@@ -49,6 +50,29 @@ model AccountVoucher {
 
   @@id([accountId, voucherId])
 }
+
+model Roadmap {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  title       String   @db.Text
+  description String
+  datetime    String
+}
+
+model Founder {
+  id           String   @id @default(uuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  username     String   @db.Text
+  description  String   @db.Text
+  image        String   @db.Text
+  facebookLink String?  @db.Text
+  twitterLink  String?  @db.Text
+  linkedinLink String?  @db.Text
+  rrsLink      String?  @db.Text
+}
+
 
 enum StatusVoucher {
   USED

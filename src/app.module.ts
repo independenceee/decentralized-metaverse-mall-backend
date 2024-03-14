@@ -8,6 +8,9 @@ import { BlockfrostModule } from "./blockfrost/blockfrost.module";
 import { KoiosModule } from "./koios/koios.module";
 import { CategoryModule } from "./category/category.module";
 import { MailModule } from "./mail/mail.module";
+import { RoadmapModule } from "./roadmap/roadmap.module";
+import { FounderModule } from "./founder/founder.module";
+import { AuthModule } from "./auth/auth.module";
 
 @Module({
     imports: [
@@ -22,6 +25,9 @@ import { MailModule } from "./mail/mail.module";
         KoiosModule,
         CategoryModule,
         MailModule,
+        RoadmapModule,
+        FounderModule,
+        AuthModule,
     ],
 })
 export class AppModule {}
