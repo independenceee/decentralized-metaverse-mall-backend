@@ -1,7 +1,8 @@
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
+import { Voucher } from "../interfaces";
 
 interface CustomRequest extends Express.Request {
-    voucher: any;
+    voucher: Voucher;
 }
 
 export const GetVoucher = createParamDecorator((data: string | undefined, ctx: ExecutionContext) => {
