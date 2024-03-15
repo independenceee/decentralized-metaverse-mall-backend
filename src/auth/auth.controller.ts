@@ -10,19 +10,27 @@ export class AuthController {
     @Public()
     @Post("login")
     @HttpCode(HttpStatus.OK)
-    login(@Body() dto: AuthDto) {}
+    login(@Body() dto: AuthDto) {
+        return this.authService.login({ dto: dto });
+    }
 
     @Public()
     @Post("register")
     @HttpCode(HttpStatus.OK)
-    register(@Body() dto: AuthDto) {}
+    register(@Body() dto: AuthDto) {
+        return this.authService.register({ dto: dto });
+    }
 
     @Public()
     @Post("refresh")
     @HttpCode(HttpStatus.OK)
-    refresh(@Body() dto: AuthDto) {}
+    refresh(@Body() dto: AuthDto) {
+        return this.authService.refresh({ dto: dto });
+    }
 
     @Post("logout")
     @HttpCode(HttpStatus.OK)
-    logout(@Body() dto: AuthDto) {}
+    logout(@Body() dto: AuthDto) {
+        return this.authService.logout({ dto: dto });
+    }
 }
