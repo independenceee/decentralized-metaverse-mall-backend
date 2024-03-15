@@ -7,10 +7,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  email        String @unique @db.Text
+  role         String? @db.Text
+  password     String @db.Text
+  refreshToken String? @db.Text
+}
+
 model Account {
   id             String           @id @default(uuid())
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
+
   walletAddress  String           @unique @db.Text
   stakeKey       String?          @db.Text
   accountVoucher AccountVoucher[]
@@ -20,6 +32,7 @@ model Voucher {
   id             String           @id @default(uuid())
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
+
   price          String?          @db.Text
   code           String           @unique() @db.Text
   link           String           @db.Text
@@ -33,16 +46,18 @@ model Category {
   id          String    @id @default(uuid())
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+
   name        String    @db.Text
-  image       String?    @db.Text
-  description String?    @db.Text
-  slug        String?    @db.Text
+  image       String?   @db.Text
+  description String?   @db.Text
+  slug        String?   @db.Text
   vouchers    Voucher[]
 }
 
 model AccountVoucher {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
   accountId String   @db.Text
   account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
   voucherId String   @db.Text
@@ -55,6 +70,7 @@ model Roadmap {
   id          String   @id @default(uuid())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
   title       String   @db.Text
   description String
   datetime    String
@@ -64,6 +80,7 @@ model Founder {
   id           String   @id @default(uuid())
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  
   username     String   @db.Text
   description  String   @db.Text
   image        String   @db.Text
@@ -72,7 +89,6 @@ model Founder {
   linkedinLink String?  @db.Text
   rrsLink      String?  @db.Text
 }
-
 
 enum StatusVoucher {
   USED
