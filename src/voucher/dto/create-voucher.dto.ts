@@ -13,4 +13,8 @@ export class CreateVoucherDto {
     @IsString()
     @IsNotEmpty()
     link: StatusVoucher;
+
+    @IsString()
+    @IsNotEmpty()
+    categoryId: string;
 }

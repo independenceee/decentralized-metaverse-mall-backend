@@ -49,8 +49,6 @@ model Category {
 
   name        String    @db.Text
   image       String?   @db.Text
-  description String?   @db.Text
-  slug        String?   @db.Text
   vouchers    Voucher[]
 }
 

@@ -1,8 +1,6 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateCategoryDto, UpdateCategoryDto } from "./dto";
-import slugify from "slugify";
-import e from "express";
 
 @Injectable()
 export class CategoryService {
@@ -10,16 +8,14 @@ export class CategoryService {
 
     async getCategories() {
         const categories = await this.prisma.category.findMany();
-        return {
-            categories,
-        };
+        return categories;
     }
 
     async getCategory({ id }: { id: string }) {
         const existCategory = await this.prisma.category.findFirst({
             where: { id: id },
         });
-
+        if (!existCategory) throw new NotFoundException("Category is not found");
         return existCategory;
     }
 
@@ -29,14 +25,12 @@ export class CategoryService {
         });
 
         if (existCategory) {
-            return existCategory;
+            throw new BadRequestException("Category already exists");
         }
 
-        const slug = slugify(dto.name);
         const category = await this.prisma.category.create({
             data: {
                 name: dto.name,
-                slug: slug,
             },
         });
 
@@ -45,29 +39,16 @@ export class CategoryService {
 
     async updateCategory({ id, dto }: { id: string; dto: UpdateCategoryDto }) {
         const existCategory = await this.getCategory({ id: id });
-
-        if (!existCategory) {
-            return;
-        }
-
         const category = await this.prisma.category.update({
-            where: { id: id },
-            data: {
-                name: dto.name ? dto.name : existCategory.name,
-                slug: dto.name ? slugify(dto.name) : existCategory.slug,
-            },
+            where: { id: existCategory.id },
+            data: { name: dto.name ? dto.name : existCategory.name },
         });
-
         return category;
     }
 
     async deleteCategory({ id }: { id: string }) {
         const existCategory = await this.getCategory({ id: id });
 
-        if (!existCategory) {
-            return;
-        }
-
-        await this.prisma.category.delete({ where: { id: id } });
+        await this.prisma.category.delete({ where: { id: existCategory.id } });
     }
 }

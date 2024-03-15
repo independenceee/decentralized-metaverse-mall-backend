@@ -18,25 +18,25 @@ export class VoucherController {
         return this.voucherService.getAllVouchers({ status: status, page: page, pageSize: pageSize });
     }
 
-    // @Post()
-    // createVoucher(@Body() dto: CreateVoucherDto[], @Res() response: Response) {
-    //     return this.voucherService.createVoucher({ dto: dto });
-    // }
+    @Post()
+    createVoucher(@Body() dto: CreateVoucherDto[], @Res() response: Response) {
+        return this.voucherService.createVoucher({ dto: dto });
+    }
 
     @Get(":id")
     getVoucherById(@Param("id") id: string) {
-        return this.voucherService.getVoucherById({ voucherId: id });
+        return this.voucherService.getVoucherById({ id: id });
     }
 
     @Patch(":id")
     updateVoucherById(@Param("id") id: string, @Body() dto: UpdateVoucherDto) {
-        return this.voucherService.updateVoucher({ voucherId: id, dto: dto });
+        return this.voucherService.updateVoucher({ id: id, dto: dto });
     }
 
     @HttpCode(HttpStatus.NO_CONTENT)
     @Delete(":id")
-    deleteVoucherById(@Param("id") id: string, @Res() response: Response) {
-        return this.voucherService.deleteVoucher({ response: response, voucherId: id });
+    deleteVoucherById(@Param("id") id: string) {
+        return this.voucherService.deleteVoucher({ id: id });
     }
 
     @Get("address")

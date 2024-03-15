@@ -8,6 +8,7 @@ import {
     Param,
     Patch,
     Post,
+    UploadedFile,
     UseInterceptors,
 } from "@nestjs/common";
 import { CategoryService } from "./category.service";
@@ -34,14 +35,15 @@ export class CategoryController {
     @HttpCode(HttpStatus.OK)
     @Post()
     @UseInterceptors(FileInterceptor("image", { storage: storageConfig("category") }))
-    createCategory(@Body() dto: CreateCategoryDto) {
+    createCategory(@Body() dto: CreateCategoryDto, @UploadedFile() files: Express.Multer.File) {
+        console.log(files);
         return this.categoryService.createCategory({ dto: dto });
     }
 
     @HttpCode(HttpStatus.OK)
     @Patch(":id")
     @UseInterceptors(FileInterceptor("image", { storage: storageConfig("category") }))
-    editCategory(@Param("id") id: string, @Body() dto: UpdateCategoryDto) {
+    editCategory(@Param("id") id: string, @Body() dto: UpdateCategoryDto, @UploadedFile() files: Express.Multer.File) {
         this.categoryService.updateCategory({ id: id, dto: dto });
     }
 

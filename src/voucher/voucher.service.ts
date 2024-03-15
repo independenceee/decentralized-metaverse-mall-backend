@@ -1,7 +1,6 @@
-import { HttpStatus, Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateVoucherDto, UpdateVoucherDto } from "./dto";
-import { Response } from "express";
 type StatusVoucher = "USED" | "FREE";
 
 @Injectable()
@@ -20,36 +19,31 @@ export class VoucherService {
         return { vouchers, totalPage };
     }
 
-    async getVoucherById({ voucherId }: { voucherId: string }) {
-        return await this.prisma.voucher.findFirst({
-            where: { id: voucherId },
+    async getVoucherById({ id }: { id: string }) {
+        const voucher = await this.prisma.voucher.findFirst({
+            where: { id: id },
         });
+        if (!voucher) throw new NotFoundException("Voucher not found");
+        return voucher;
     }
 
-    // async createVoucher({ dto }: { dto: CreateVoucherDto[] }) {
-    //     await this.prisma.voucher.createMany({ data: dto });
-    // }
-
-    async updateVoucher({ voucherId, dto }: { voucherId: string; dto: UpdateVoucherDto }) {
-        return await this.prisma.voucher.update({
-            where: { id: voucherId },
+    async createVoucher({ dto }: { dto: CreateVoucherDto[] }) {
+        await this.prisma.voucher.createMany({
             data: dto,
         });
     }
 
-    async deleteVoucher({ response, voucherId }: { response: Response; voucherId: string }) {
-        try {
-            const existVoucher = await this.prisma.voucher.findUnique({ where: { id: voucherId } });
-            if (!existVoucher) {
-                return response.status(HttpStatus.NOT_FOUND).json({
-                    message: "Voucher not found",
-                });
-            }
-            await this.prisma.voucher.delete({ where: { id: existVoucher.id } });
-            return response.status(HttpStatus.OK).json({ message: "Delete voucher successfully" });
-        } catch (error) {
-            response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error });
-        }
+    async updateVoucher({ id, dto }: { id: string; dto: UpdateVoucherDto }) {
+        const existVoucher = await this.getVoucherById({ id: id });
+        return await this.prisma.voucher.update({
+            where: { id: existVoucher.id },
+            data: { ...dto },
+        });
+    }
+
+    async deleteVoucher({ id }: { id: string }) {
+        const existVoucher = await this.getVoucherById({ id: id });
+        await this.prisma.voucher.delete({ where: { id: existVoucher.id } });
     }
 
     async getVoucherWalletAddress({ walletAddress }: { walletAddress: string }) {
