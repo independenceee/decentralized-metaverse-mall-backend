@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Res } from "@nestjs/common";
 import { VoucherService } from "./voucher.service";
 import { Voucher } from "./interfaces";
-import { CreateVoucherDto } from "./dto";
-import { UpdateVoucherDto } from "./dto/update-voucher.dto";
+import { CreateVoucherDto, ReceiveVoucherDto } from "./dto";
+import { UpdateVoucherDto } from "./dto/edit-voucher.dto";
 import { Response } from "express";
 
 @Controller("voucher")
@@ -39,8 +39,8 @@ export class VoucherController {
         return this.voucherService.deleteVoucher({ id: id });
     }
 
-    @Get("address")
-    getVoucherWalletAddress(@Query("wallet_address") walletAddress: string) {
-        return this.voucherService.getVoucherWalletAddress({ walletAddress: walletAddress });
+    @Post("reciece")
+    receiveVoucher(@Body() dto: ReceiveVoucherDto) {
+        return this.voucherService.receiveVoucher({ dto: dto });
     }
 }
