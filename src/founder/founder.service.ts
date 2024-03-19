@@ -63,15 +63,14 @@ export class FounderService {
         return founder;
     }
 
-    async editFounder({ id, file, dto }: { id: string; file: Express.Multer.File; dto: EditFounderDto }) {
+    async editFounder({ id, file, dto }: { id: string; file?: Express.Multer.File; dto: EditFounderDto }) {
         const existFounder = await this.getFounderById({ id: id });
-        if (file) fs.remove(join(__dirname, `public/founder/${existFounder.image}`));
         const founder = await this.prismaService.founder.update({
             where: { id: existFounder.id },
             data: {
                 username: dto.username ? dto.username : existFounder.username,
                 description: dto.description ? dto.description : existFounder.description,
-                image: file.filename ? file.filename : existFounder.image,
+                image: file ? file.filename : existFounder.image,
                 facebookLink: dto.facebookLink ? dto.facebookLink : existFounder.facebookLink,
                 linkedinLink: dto.linkedinLink ? dto.linkedinLink : existFounder.linkedinLink,
                 twitterLink: dto.twitterLink ? dto.twitterLink : existFounder.twitterLink,
