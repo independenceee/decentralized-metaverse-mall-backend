@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
-import { CreateVoucherDto, UpdateVoucherDto } from "./dto";
+import { CreateVoucherDto, ReceiveVoucherDto, UpdateVoucherDto } from "./dto";
 type StatusVoucher = "USED" | "FREE";
 
 @Injectable()
@@ -46,10 +46,11 @@ export class VoucherService {
         await this.prisma.voucher.delete({ where: { id: existVoucher.id } });
     }
 
-    async getVoucherWalletAddress({ walletAddress }: { walletAddress: string }) {
+    async receiveVoucher({ dto }: { dto: ReceiveVoucherDto }) {
         const account = await this.prisma.account.findFirst({
             where: {
-                walletAddress: walletAddress,
+                walletAddress: dto.walletAddress,
+                stakeKey: dto.stakeAddress,
             },
         });
         const existVouchers = await this.prisma.accountVoucher.findMany({
@@ -64,11 +65,24 @@ export class VoucherService {
         if (existVouchers.length > 0) {
             return existVouchers;
         }
+
+        let price: string;
+        if (dto.epoch > 0 && dto.epoch <= 1) {
+            price = "100";
+        } else if (dto.epoch > 1 && dto.epoch <= 2) {
+            price = "200";
+        } else if (dto.epoch > 2) {
+            price = "300";
+        }
+
         const freeVoucher = await this.prisma.voucher.findFirst({
             where: {
                 status: "FREE",
+                categoryId: dto.categoryId,
+                price: price,
             },
         });
+
         await this.prisma.accountVoucher.create({
             data: {
                 accountId: account.id,
