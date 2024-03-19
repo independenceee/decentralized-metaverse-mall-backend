@@ -2,8 +2,6 @@ import { BadRequestException, ForbiddenException, Injectable, NotFoundException 
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateFounderDto, EditFounderDto } from "./dto";
 import { Founder } from "@prisma/client";
-import * as fs from "fs-extra";
-import { join } from "path";
 
 @Injectable()
 export class FounderService {

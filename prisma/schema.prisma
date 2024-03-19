@@ -12,16 +12,16 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  email        String @unique @db.Text
+  email        String  @unique @db.Text
   role         String? @db.Text
-  password     String @db.Text
+  password     String  @db.Text
   refreshToken String? @db.Text
 }
 
 model Account {
-  id             String           @id @default(uuid())
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   walletAddress  String           @unique @db.Text
   stakeKey       String?          @db.Text
@@ -29,9 +29,9 @@ model Account {
 }
 
 model Voucher {
-  id             String           @id @default(uuid())
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   price          String?          @db.Text
   code           String           @unique() @db.Text
@@ -43,49 +43,66 @@ model Voucher {
 }
 
 model Category {
-  id          String    @id @default(uuid())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  name        String    @db.Text
-  image       String?   @db.Text
-  vouchers    Voucher[]
+  name     String    @db.Text
+  image    String?   @db.Text
+  vouchers Voucher[]
+
+  banner  Banner?
+}
+
+model Banner {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title       String  @db.Text
+  image       String? @db.Text
+  description String? @db.Text
+  link        String  @db.Text
+
+  categoryId String @db.Text @unique
+  category Category @relation(fields: [categoryId], references: [id])
+
 }
 
 model AccountVoucher {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  accountId String   @db.Text
-  account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  voucherId String   @db.Text
-  voucher   Voucher  @relation(fields: [voucherId], references: [id], onDelete: Cascade)
+  accountId String  @db.Text
+  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  voucherId String  @db.Text
+  voucher   Voucher @relation(fields: [voucherId], references: [id], onDelete: Cascade)
 
   @@id([accountId, voucherId])
 }
 
 model Roadmap {
-  id          String   @id @default(uuid())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  title       String   @db.Text
+  title       String @db.Text
   description String
   datetime    String
 }
 
 model Founder {
-  id           String   @id @default(uuid())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  
-  username     String   @db.Text
-  description  String   @db.Text
-  image        String   @db.Text
-  facebookLink String?  @db.Text
-  twitterLink  String?  @db.Text
-  linkedinLink String?  @db.Text
-  rrsLink      String?  @db.Text
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  username     String  @db.Text
+  description  String  @db.Text
+  image        String  @db.Text
+  facebookLink String? @db.Text
+  twitterLink  String? @db.Text
+  linkedinLink String? @db.Text
+  rrsLink      String? @db.Text
 }
 
 enum StatusVoucher {
