@@ -11,6 +11,7 @@ import { MailModule } from "./mail/mail.module";
 import { RoadmapModule } from "./roadmap/roadmap.module";
 import { FounderModule } from "./founder/founder.module";
 import { AuthModule } from "./auth/auth.module";
+import { BannerModule } from './banner/banner.module';
 
 @Module({
     imports: [
@@ -28,6 +29,7 @@ import { AuthModule } from "./auth/auth.module";
         RoadmapModule,
         FounderModule,
         AuthModule,
+        BannerModule,
     ],
 })
 export class AppModule {}

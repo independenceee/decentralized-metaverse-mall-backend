@@ -34,22 +34,21 @@ export class CategoryController {
 
     @HttpCode(HttpStatus.OK)
     @Post()
-    @UseInterceptors(FileInterceptor("image", { storage: storageConfig("category") }))
-    createCategory(@Body() dto: CreateCategoryDto, @UploadedFile() files: Express.Multer.File) {
-        console.log(files);
-        return this.categoryService.createCategory({ dto: dto });
+    @UseInterceptors(FileInterceptor("image", { storage: storageConfig("image") }))
+    createCategory(@Body() dto: CreateCategoryDto, @UploadedFile() file: Express.Multer.File) {
+        return this.categoryService.createCategory({ dto: dto, file: file });
     }
 
     @HttpCode(HttpStatus.OK)
     @Patch(":id")
-    @UseInterceptors(FileInterceptor("image", { storage: storageConfig("category") }))
-    editCategory(@Param("id") id: string, @Body() dto: UpdateCategoryDto, @UploadedFile() files: Express.Multer.File) {
-        this.categoryService.updateCategory({ id: id, dto: dto });
+    @UseInterceptors(FileInterceptor("image", { storage: storageConfig("image") }))
+    editCategory(@Param("id") id: string, @Body() dto: UpdateCategoryDto, @UploadedFile() file: Express.Multer.File) {
+        return this.categoryService.updateCategory({ id: id, dto: dto, file: file });
     }
 
     @HttpCode(HttpStatus.OK)
     @Delete(":id")
     deleteCategory(@Param("id") id: string) {
-        this.categoryService.deleteCategory({ id: id });
+        return this.categoryService.deleteCategory({ id: id });
     }
 }

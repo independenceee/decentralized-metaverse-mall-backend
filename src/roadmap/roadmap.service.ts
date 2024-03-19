@@ -24,7 +24,7 @@ export class RoadmapService {
             where: { title: dto.title, description: dto.description },
         });
 
-        if (!existRoadmap) throw new ForbiddenException("Roadmap has already exists.");
+        if (existRoadmap) throw new ForbiddenException("Roadmap has already exists.");
         const roadmap: Roadmap = await this.prismaService.roadmap.create({
             data: { ...dto },
         });

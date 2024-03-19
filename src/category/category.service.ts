@@ -19,36 +19,31 @@ export class CategoryService {
         return existCategory;
     }
 
-    async createCategory({ dto }: { dto: CreateCategoryDto }) {
+    async createCategory({ dto, file }: { dto: CreateCategoryDto; file: Express.Multer.File }) {
         const existCategory = await this.prisma.category.findFirst({
             where: { name: dto.name },
         });
-
-        if (existCategory) {
-            throw new BadRequestException("Category already exists");
-        }
-
+        if (existCategory) throw new BadRequestException("Category already exists");
         const category = await this.prisma.category.create({
-            data: {
-                name: dto.name,
-            },
+            data: { name: dto.name, image: file.fieldname },
         });
-
         return category;
     }
 
-    async updateCategory({ id, dto }: { id: string; dto: UpdateCategoryDto }) {
+    async updateCategory({ id, dto, file }: { id: string; dto: UpdateCategoryDto; file: Express.Multer.File }) {
         const existCategory = await this.getCategory({ id: id });
         const category = await this.prisma.category.update({
             where: { id: existCategory.id },
-            data: { name: dto.name ? dto.name : existCategory.name },
+            data: {
+                name: dto.name ? dto.name : existCategory.name,
+                image: file ? file.fieldname : existCategory.image,
+            },
         });
         return category;
     }
 
     async deleteCategory({ id }: { id: string }) {
         const existCategory = await this.getCategory({ id: id });
-
         await this.prisma.category.delete({ where: { id: existCategory.id } });
     }
 }
