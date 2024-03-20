@@ -54,6 +54,16 @@ model Category {
   banner  Banner?
 }
 
+
+model DealHot {
+    id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name String @db.Text
+  image String @db.Text
+}
+
 model Banner {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())

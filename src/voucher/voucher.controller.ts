@@ -19,7 +19,7 @@ export class VoucherController {
     }
 
     @Post()
-    createVoucher(@Body() dto: CreateVoucherDto[], @Res() response: Response) {
+    createVoucher(@Body() dto: CreateVoucherDto[]) {
         return this.voucherService.createVoucher({ dto: dto });
     }
 

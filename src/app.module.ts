@@ -11,7 +11,9 @@ import { MailModule } from "./mail/mail.module";
 import { RoadmapModule } from "./roadmap/roadmap.module";
 import { FounderModule } from "./founder/founder.module";
 import { AuthModule } from "./auth/auth.module";
-import { BannerModule } from './banner/banner.module';
+import { BannerModule } from "./banner/banner.module";
+import { DealhotModule } from './dealhot/dealhot.module';
+import { UserModule } from './user/user.module';
 
 @Module({
     imports: [
@@ -20,7 +22,7 @@ import { BannerModule } from './banner/banner.module';
         }),
         PrismaModule,
         AccountModule,
-        // VoucherModule,
+        VoucherModule,
         EmurgoModule,
         BlockfrostModule,
         KoiosModule,
@@ -30,6 +32,8 @@ import { BannerModule } from './banner/banner.module';
         FounderModule,
         AuthModule,
         BannerModule,
+        DealhotModule,
+        UserModule,
     ],
 })
 export class AppModule {}

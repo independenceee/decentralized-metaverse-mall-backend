@@ -28,7 +28,7 @@ export class VoucherService {
     }
 
     async createVoucher({ dto }: { dto: CreateVoucherDto[] }) {
-        await this.prisma.voucher.createMany({ data: dto });
+        return await this.prisma.voucher.createMany({ data: dto });
     }
 
     async updateVoucher({ id, dto }: { id: string; dto: UpdateVoucherDto }) {
