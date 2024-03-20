@@ -34,14 +34,14 @@ export class CategoryController {
 
     @HttpCode(HttpStatus.OK)
     @Post()
-    @UseInterceptors(FileInterceptor("image", { storage: storageConfig("image") }))
+    @UseInterceptors(FileInterceptor("image", { storage: storageConfig("category") }))
     createCategory(@Body() dto: CreateCategoryDto, @UploadedFile() file: Express.Multer.File) {
         return this.categoryService.createCategory({ dto: dto, file: file });
     }
 
     @HttpCode(HttpStatus.OK)
     @Patch(":id")
-    @UseInterceptors(FileInterceptor("image", { storage: storageConfig("image") }))
+    @UseInterceptors(FileInterceptor("image", { storage: storageConfig("category") }))
     editCategory(@Param("id") id: string, @Body() dto: UpdateCategoryDto, @UploadedFile() file: Express.Multer.File) {
         return this.categoryService.updateCategory({ id: id, dto: dto, file: file });
     }
