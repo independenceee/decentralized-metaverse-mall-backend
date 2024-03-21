@@ -25,7 +25,7 @@ export class CategoryService {
         });
         if (existCategory) throw new BadRequestException("Category already exists");
         const category = await this.prisma.category.create({
-            data: { name: dto.name, image: file.fieldname },
+            data: { name: dto.name, image: file.filename },
         });
         return category;
     }
@@ -36,7 +36,7 @@ export class CategoryService {
             where: { id: existCategory.id },
             data: {
                 name: dto.name ? dto.name : existCategory.name,
-                image: file ? file.fieldname : existCategory.image,
+                image: file ? file.filename : existCategory.image,
             },
         });
         return category;

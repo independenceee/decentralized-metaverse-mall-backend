@@ -25,7 +25,7 @@ export class DealhotService {
         });
         if (existDealHot) throw new BadRequestException("DealHot already exists");
         const DealHot = await this.prisma.dealHot.create({
-            data: { name: dto.name, image: file.fieldname },
+            data: { name: dto.name, image: file.filename },
         });
         return DealHot;
     }
@@ -36,7 +36,7 @@ export class DealhotService {
             where: { id: existDealHot.id },
             data: {
                 name: dto.name ? dto.name : existDealHot.name,
-                image: file ? file.fieldname : existDealHot.image,
+                image: file ? file.filename : existDealHot.image,
             },
         });
         return DealHot;

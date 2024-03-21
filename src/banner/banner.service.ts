@@ -27,7 +27,7 @@ export class BannerService {
         const banner = await this.prisma.banner.create({
             data: {
                 title: dto.title,
-                image: file.fieldname,
+                image: file.filename,
                 description: dto.description,
                 link: dto.link,
                 categoryId: dto.categoryId,
@@ -42,7 +42,7 @@ export class BannerService {
             where: { id: existBanner.id },
             data: {
                 title: dto.title ? dto.title : existBanner.title,
-                image: file ? file.fieldname : existBanner.image,
+                image: file ? file.filename : existBanner.image,
                 description: dto.description ? dto.description : existBanner.description,
                 link: dto.link ? dto.link : existBanner.link,
                 categoryId: dto.categoryId ? dto.categoryId : existBanner.categoryId,
