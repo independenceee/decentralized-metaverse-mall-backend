@@ -46,11 +46,9 @@ model Category {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
   name     String    @db.Text
   image    String?   @db.Text
   vouchers Voucher[]
-
   banner  Banner?
 }
 
