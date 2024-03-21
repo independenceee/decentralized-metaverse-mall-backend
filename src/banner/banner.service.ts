@@ -30,7 +30,7 @@ export class BannerService {
                 image: file.filename,
                 description: dto.description,
                 link: dto.link,
-                categoryId: dto.categoryId,
+                categoryName: dto.categoryName,
             },
         });
         return banner;
@@ -45,7 +45,7 @@ export class BannerService {
                 image: file ? file.filename : existBanner.image,
                 description: dto.description ? dto.description : existBanner.description,
                 link: dto.link ? dto.link : existBanner.link,
-                categoryId: dto.categoryId ? dto.categoryId : existBanner.categoryId,
+                categoryName: dto.categoryName ? dto.categoryName : existBanner.categoryName,
             },
         });
         return Banner;

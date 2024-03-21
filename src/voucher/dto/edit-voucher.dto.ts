@@ -5,5 +5,5 @@ export class UpdateVoucherDto {
     status?: StatusVoucher;
     link?: string;
     price?: string;
-    categoryId?: string;
+    categoryName?: string;
 }

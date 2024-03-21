@@ -3,5 +3,5 @@ export class EditBannerDto {
     image: string;
     description: string;
     link: string;
-    categoryId: string;
+    categoryName: string;
 }
