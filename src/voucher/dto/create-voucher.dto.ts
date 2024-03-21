@@ -4,5 +4,5 @@ export class CreateVoucherDto {
     code: string;
     status?: StatusVoucher;
     link: StatusVoucher;
-    categoryId: string;
+    categoryName: string;
 }

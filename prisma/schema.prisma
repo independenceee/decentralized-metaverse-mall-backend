@@ -37,8 +37,8 @@ model Voucher {
   code           String           @unique() @db.Text
   link           String           @db.Text
   status         StatusVoucher?   @default(USED)
-  categoryId     String           @db.Text
-  category       Category         @relation(fields: [categoryId], references: [id])
+  categoryName     String           @db.Text
+  category       Category         @relation(fields: [categoryName], references: [name])
   accountVoucher AccountVoucher[]
 }
 
@@ -46,7 +46,7 @@ model Category {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  name     String    @db.Text
+  name     String    @db.Text @unique
   image    String?   @db.Text
   vouchers Voucher[]
   banner  Banner?
@@ -72,8 +72,8 @@ model Banner {
   description String? @db.Text
   link        String  @db.Text
 
-  categoryId String @db.Text @unique
-  category Category @relation(fields: [categoryId], references: [id])
+  categoryName String @db.Text @unique
+  category Category @relation(fields: [categoryName], references: [name])
 
 }
 
@@ -89,6 +89,9 @@ model AccountVoucher {
   @@id([accountId, voucherId])
 }
 
+
+
+
 model Roadmap {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
@@ -98,6 +101,8 @@ model Roadmap {
   description String
   datetime    String
 }
+
+
 
 model Founder {
   id        String   @id @default(uuid())

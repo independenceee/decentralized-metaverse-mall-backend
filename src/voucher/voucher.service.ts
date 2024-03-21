@@ -36,7 +36,7 @@ export class VoucherService {
         return await this.prisma.voucher.update({
             where: { id: existVoucher.id },
             data: {
-                categoryId: dto.categoryId ? dto.categoryId : existVoucher.categoryId,
+                categoryName: dto.categoryName ? dto.categoryName : existVoucher.categoryName,
                 code: dto.code ? dto.code : existVoucher.code,
                 link: dto.link ? dto.link : existVoucher.link,
                 price: dto.price ? dto.price : existVoucher.price,
@@ -64,7 +64,7 @@ export class VoucherService {
         else if (dto.epoch > 1 && dto.epoch <= 2) price = "200";
         else if (dto.epoch > 2) price = "300";
         const freeVoucher = await this.prisma.voucher.findFirst({
-            where: { status: "FREE", categoryId: dto.categoryId, price: price },
+            where: { status: "FREE", categoryName: dto.categoryName, price: price },
         });
         await this.prisma.accountVoucher.create({
             data: { accountId: account.id, voucherId: freeVoucher.id },
