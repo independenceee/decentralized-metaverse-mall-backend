@@ -11,6 +11,14 @@ export class CategoryService {
         return categories;
     }
 
+    async getCategoryWithBanner() {
+        return await this.prisma.category.findMany({
+            include: {
+                banner: true,
+            },
+        });
+    }
+
     async getCategory({ id }: { id: string }) {
         const existCategory = await this.prisma.category.findFirst({
             where: { id: id },

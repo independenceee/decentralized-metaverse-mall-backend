@@ -3,7 +3,6 @@ import { VoucherService } from "./voucher.service";
 import { Voucher } from "./interfaces";
 import { CreateVoucherDto, ReceiveVoucherDto } from "./dto";
 import { UpdateVoucherDto } from "./dto/edit-voucher.dto";
-import { Response } from "express";
 
 @Controller("voucher")
 export class VoucherController {

@@ -51,4 +51,9 @@ export class CategoryController {
     deleteCategory(@Param("id") id: string) {
         return this.categoryService.deleteCategory({ id: id });
     }
+
+    @Get("/banner")
+    getCategoryWithBanner() {
+        return this.categoryService.getCategoryWithBanner();
+    }
 }
