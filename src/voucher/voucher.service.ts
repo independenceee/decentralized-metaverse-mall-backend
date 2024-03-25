@@ -60,6 +60,8 @@ export class VoucherService {
         });
         if (existVouchers.length > 0) return existVouchers;
         let price: string;
+
+        if (!dto.epoch || dto.epoch === 0) return;
         if (dto.epoch > 0 && dto.epoch <= 1) price = "100";
         else if (dto.epoch > 1 && dto.epoch <= 2) price = "200";
         else if (dto.epoch > 2) price = "300";
