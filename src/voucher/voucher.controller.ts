@@ -12,13 +12,25 @@ export class VoucherController {
     receiveVoucher(@Body() dto: ReceiveVoucherDto) {
         return this.voucherService.receiveVoucher({ dto: dto });
     }
+
+    @Get("wallet-address")
+    getVoucherByWalletAddress(@Query("walletAddress") walletAddress: string) {
+        return this.voucherService.getVoucherByWalletAddress({ walletAddress: walletAddress });
+    }
+
     @Get()
     getAllVouchers(
         @Query("status") status: string,
+        @Query("categoryName") categoryName: string,
         @Query("page") page: number = 1,
         @Query("pageSize") pageSize: number = 12,
     ): Promise<{ totalPage: number; vouchers: Array<Voucher> }> {
-        return this.voucherService.getAllVouchers({ status: status, page: page, pageSize: pageSize });
+        return this.voucherService.getAllVouchers({
+            status: status,
+            page: page,
+            pageSize: pageSize,
+            categoryName: categoryName,
+        });
     }
 
     @Post()

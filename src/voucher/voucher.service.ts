@@ -7,16 +7,38 @@ type StatusVoucher = "USED" | "FREE";
 export class VoucherService {
     constructor(private prisma: PrismaService) {}
 
-    async getAllVouchers({ status, page, pageSize }: { status: string; page: number; pageSize: number }) {
+    async getAllVouchers({
+        status,
+        page,
+        pageSize,
+        categoryName,
+    }: {
+        status: string;
+        page: number;
+        pageSize: number;
+        categoryName: string;
+    }) {
         const totalVoucher = await this.prisma.voucher.count();
         const totalPage = Math.ceil(totalVoucher / pageSize);
         const vouchers = await this.prisma.voucher.findMany({
-            where: { status: status as StatusVoucher },
+            where: {
+                status: status as StatusVoucher,
+                categoryName: categoryName as string,
+            },
             skip: (page - 1) * pageSize,
             take: Number(pageSize),
         });
 
         return { vouchers, totalPage };
+    }
+
+    async getVoucherByWalletAddress({ walletAddress }: { walletAddress: string }) {
+        const vouchers = await this.prisma.accountVoucher.findMany({
+            where: {
+                account: { walletAddress: walletAddress },
+            },
+            include: { voucher: true },
+        });
     }
 
     async getVoucherById({ id }: { id: string }) {
