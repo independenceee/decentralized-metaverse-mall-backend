@@ -21,6 +21,12 @@ export class CategoryController {
     constructor(private categoryService: CategoryService) {}
 
     @HttpCode(HttpStatus.OK)
+    @Get("banner")
+    getCategoryWithBanner() {
+        return this.categoryService.getCategoryWithBanner();
+    }
+
+    @HttpCode(HttpStatus.OK)
     @Get()
     getCategories() {
         return this.categoryService.getCategories();
@@ -50,10 +56,5 @@ export class CategoryController {
     @Delete(":id")
     deleteCategory(@Param("id") id: string) {
         return this.categoryService.deleteCategory({ id: id });
-    }
-
-    @Get("/banner")
-    getCategoryWithBanner() {
-        return this.categoryService.getCategoryWithBanner();
     }
 }

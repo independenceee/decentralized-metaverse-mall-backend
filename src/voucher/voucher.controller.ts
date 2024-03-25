@@ -8,6 +8,10 @@ import { UpdateVoucherDto } from "./dto/edit-voucher.dto";
 export class VoucherController {
     constructor(private voucherService: VoucherService) {}
 
+    @Post("recieve")
+    receiveVoucher(@Body() dto: ReceiveVoucherDto) {
+        return this.voucherService.receiveVoucher({ dto: dto });
+    }
     @Get()
     getAllVouchers(
         @Query("status") status: string,
@@ -36,10 +40,5 @@ export class VoucherController {
     @Delete(":id")
     deleteVoucherById(@Param("id") id: string) {
         return this.voucherService.deleteVoucher({ id: id });
-    }
-
-    @Post("reciece")
-    receiveVoucher(@Body() dto: ReceiveVoucherDto) {
-        return this.voucherService.receiveVoucher({ dto: dto });
     }
 }
