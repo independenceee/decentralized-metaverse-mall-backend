@@ -52,7 +52,7 @@ export class VoucherService {
 
     async receiveVoucher({ dto }: { dto: ReceiveVoucherDto }) {
         const account = await this.prisma.account.findFirst({
-            where: { walletAddress: dto.walletAddress, stakeKey: dto.stakeAddress },
+            where: { walletAddress: dto.walletAddress },
         });
         const existVouchers = await this.prisma.accountVoucher.findMany({
             where: { accountId: account.id },
@@ -60,14 +60,23 @@ export class VoucherService {
         });
         if (existVouchers.length > 0) return existVouchers;
         let price: string;
+
+        if (!dto.epoch || dto.epoch === 0) return;
         if (dto.epoch > 0 && dto.epoch <= 1) price = "100";
         else if (dto.epoch > 1 && dto.epoch <= 2) price = "200";
         else if (dto.epoch > 2) price = "300";
         const freeVoucher = await this.prisma.voucher.findFirst({
-            where: { status: "FREE", categoryName: dto.categoryName, price: price },
+            where: {
+                status: "FREE",
+                categoryName: dto.categoryName,
+                price: price,
+            },
         });
         await this.prisma.accountVoucher.create({
-            data: { accountId: account.id, voucherId: freeVoucher.id },
+            data: {
+                accountId: account.id,
+                voucherId: freeVoucher.id,
+            },
         });
         return [freeVoucher];
     }
