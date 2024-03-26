@@ -33,12 +33,13 @@ export class VoucherService {
     }
 
     async getVoucherByWalletAddress({ walletAddress }: { walletAddress: string }) {
-        const vouchers = await this.prisma.accountVoucher.findMany({
+        const existVouchers = await this.prisma.accountVoucher.findMany({
             where: {
                 account: { walletAddress: walletAddress },
             },
             include: { voucher: true },
         });
+        const vouchers = existVouchers.map((accountVoucher) => accountVoucher.voucher);
         return vouchers;
     }
 
@@ -99,8 +100,6 @@ export class VoucherService {
                 price: price,
             },
         });
-
-        console.log("3", freeVoucher);
 
         await this.prisma.accountVoucher.create({
             data: {
